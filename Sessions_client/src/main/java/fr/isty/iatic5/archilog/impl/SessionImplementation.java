@@ -123,7 +123,7 @@ public class SessionImplementation implements SessionInterface {
 			// create json
 			URL url;
 			try {
-				url = new URL ("\"http://localhost:8080/manipulUniteEnseign/create/newentitenseign/");
+				url = new URL ("\"http://localhost:8080/manipulCreneau/create/newcreneau/");
 				HttpURLConnection con;
 				try {
 					con = (HttpURLConnection)url.openConnection();
@@ -186,7 +186,7 @@ public class SessionImplementation implements SessionInterface {
 			}
 			URL url;
 			try {
-				url = new URL ("\"http://localhost:8080/manipulUniteEnseign/create/newentitenseign/");
+				url = new URL ("\"http://localhost:8080/manipulClasse/create/newClasse/");
 				HttpURLConnection con;
 				try {
 					con = (HttpURLConnection)url.openConnection();
@@ -254,28 +254,253 @@ public class SessionImplementation implements SessionInterface {
 	@Override
 	public String deleteEU(String JSONEntry) {
 		// TODO Auto-generated method stub
-		return null;
+		String intitule = null;
+		String id = null;
+		JSONObject obj;
+		try {
+			obj = new JSONObject(JSONEntry);
+			try {
+				id = obj.getString("id");
+				intitule = obj.getString("intitule");
+
+			} catch (JSONException e) {
+				System.out.println("Unexpected json file, should be: code,intitule,cours,td,tp,valeur");
+
+			}
+			URL url;
+			try {
+				url = new URL ("\"http://localhost:8080/manipulUniteEnseign/delete/deletentitenseign/");
+				HttpURLConnection con;
+				try {
+					con = (HttpURLConnection)url.openConnection();
+					con.setRequestMethod("POST");
+					con.setRequestProperty("Content-Type", "application/json; utf-8");
+					con.setRequestProperty("Accept", "application/json");
+					con.setDoOutput(true);
+					String jsonInputString = "{ id : "+id+"}";
+					try(OutputStream os = con.getOutputStream()) {
+					    byte[] input = jsonInputString.getBytes("utf-8");
+					    os.write(input, 0, input.length);           
+					}
+					try(BufferedReader br = new BufferedReader(
+							  new InputStreamReader(con.getInputStream(), "utf-8"))) {
+							    StringBuilder response = new StringBuilder();
+							    String responseLine = null;
+							    while ((responseLine = br.readLine()) != null) {
+							        response.append(responseLine.trim());
+							    }
+							    System.out.println(response.toString());
+							}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+	
+		String ret = "{ \"id\": \"" + id + "\"}";
+
+		return ret;
+	
 	}
 
 
 	@Override
 	public String deleteCreneau(String JSONEntry) {
 		// TODO Auto-generated method stub
-		return null;
+				String intitule = null;
+				String id = null;
+				JSONObject obj;
+				try {
+					obj = new JSONObject(JSONEntry);
+					try {
+						id = obj.getString("id");
+						intitule = obj.getString("intitule");
+
+					} catch (JSONException e) {
+						System.out.println("Unexpected json file, should be: code,intitule,cours,td,tp,valeur");
+
+					}
+					URL url;
+					try {
+						url = new URL ("\"http://localhost:8080/manipulCreneau/delete/deletecreneau/");
+						HttpURLConnection con;
+						try {
+							con = (HttpURLConnection)url.openConnection();
+							con.setRequestMethod("POST");
+							con.setRequestProperty("Content-Type", "application/json; utf-8");
+							con.setRequestProperty("Accept", "application/json");
+							con.setDoOutput(true);
+							String jsonInputString = "{ id : "+id+"}";
+							try(OutputStream os = con.getOutputStream()) {
+							    byte[] input = jsonInputString.getBytes("utf-8");
+							    os.write(input, 0, input.length);           
+							}
+							try(BufferedReader br = new BufferedReader(
+									  new InputStreamReader(con.getInputStream(), "utf-8"))) {
+									    StringBuilder response = new StringBuilder();
+									    String responseLine = null;
+									    while ((responseLine = br.readLine()) != null) {
+									        response.append(responseLine.trim());
+									    }
+									    System.out.println(response.toString());
+									}
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			
+				String ret = "{ \"id\": \"" + id + "\"}";
+
+				return ret;
 	}
 
 
 	@Override
 	public String deleteSession(String JSONEntry) {
 		// TODO Auto-generated method stub
-		return null;
+				String intitule = null;
+				String id = null;
+				JSONObject obj;
+				try {
+					obj = new JSONObject(JSONEntry);
+					try {
+						id = obj.getString("id");
+						intitule = obj.getString("intitule");
+
+					} catch (JSONException e) {
+						System.out.println("Unexpected json file, should be: code,intitule,cours,td,tp,valeur");
+
+					}
+					URL url;
+					try {
+						url = new URL ("\"http://localhost:8080/manipulSession/delete/deletesession/");
+						HttpURLConnection con;
+						try {
+							con = (HttpURLConnection)url.openConnection();
+							con.setRequestMethod("POST");
+							con.setRequestProperty("Content-Type", "application/json; utf-8");
+							con.setRequestProperty("Accept", "application/json");
+							con.setDoOutput(true);
+							String jsonInputString = "{ id : "+id+"}";
+							try(OutputStream os = con.getOutputStream()) {
+							    byte[] input = jsonInputString.getBytes("utf-8");
+							    os.write(input, 0, input.length);           
+							}
+							try(BufferedReader br = new BufferedReader(
+									  new InputStreamReader(con.getInputStream(), "utf-8"))) {
+									    StringBuilder response = new StringBuilder();
+									    String responseLine = null;
+									    while ((responseLine = br.readLine()) != null) {
+									        response.append(responseLine.trim());
+									    }
+									    System.out.println(response.toString());
+									}
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			
+				String ret = "{ \"id\": \"" + id + "\"}";
+
+				return ret;
 	}
 
 
 	@Override
 	public String deleteClasse(String JSONEntry) {
 		// TODO Auto-generated method stub
-		return null;
+				String intitule = null;
+				String id = null;
+				JSONObject obj;
+				try {
+					obj = new JSONObject(JSONEntry);
+					try {
+						id = obj.getString("id");
+						intitule = obj.getString("intitule");
+
+					} catch (JSONException e) {
+						System.out.println("Unexpected json file, should be: code,intitule,cours,td,tp,valeur");
+
+					}
+					URL url;
+					try {
+						url = new URL ("\"http://localhost:8080/manipulClasse/delete/deleteClasse/");
+						HttpURLConnection con;
+						try {
+							con = (HttpURLConnection)url.openConnection();
+							con.setRequestMethod("POST");
+							con.setRequestProperty("Content-Type", "application/json; utf-8");
+							con.setRequestProperty("Accept", "application/json");
+							con.setDoOutput(true);
+							String jsonInputString = "{ id : "+id+"}";
+							try(OutputStream os = con.getOutputStream()) {
+							    byte[] input = jsonInputString.getBytes("utf-8");
+							    os.write(input, 0, input.length);           
+							}
+							try(BufferedReader br = new BufferedReader(
+									  new InputStreamReader(con.getInputStream(), "utf-8"))) {
+									    StringBuilder response = new StringBuilder();
+									    String responseLine = null;
+									    while ((responseLine = br.readLine()) != null) {
+									        response.append(responseLine.trim());
+									    }
+									    System.out.println(response.toString());
+									}
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			
+				String ret = "{ \"id\": \"" + id + "\"}";
+
+				return ret;
 	}
 
 
