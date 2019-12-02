@@ -273,7 +273,7 @@ public class SessionImplementation implements SessionInterface {
 				HttpURLConnection con;
 				try {
 					con = (HttpURLConnection)url.openConnection();
-					con.setRequestMethod("POST");
+					con.setRequestMethod("DELETE");
 					con.setRequestProperty("Content-Type", "application/json; utf-8");
 					con.setRequestProperty("Accept", "application/json");
 					con.setDoOutput(true);
@@ -337,7 +337,7 @@ public class SessionImplementation implements SessionInterface {
 						HttpURLConnection con;
 						try {
 							con = (HttpURLConnection)url.openConnection();
-							con.setRequestMethod("POST");
+							con.setRequestMethod("DELETE");
 							con.setRequestProperty("Content-Type", "application/json; utf-8");
 							con.setRequestProperty("Accept", "application/json");
 							con.setDoOutput(true);
@@ -400,7 +400,7 @@ public class SessionImplementation implements SessionInterface {
 						HttpURLConnection con;
 						try {
 							con = (HttpURLConnection)url.openConnection();
-							con.setRequestMethod("POST");
+							con.setRequestMethod("DELETE");
 							con.setRequestProperty("Content-Type", "application/json; utf-8");
 							con.setRequestProperty("Accept", "application/json");
 							con.setDoOutput(true);
@@ -463,7 +463,7 @@ public class SessionImplementation implements SessionInterface {
 						HttpURLConnection con;
 						try {
 							con = (HttpURLConnection)url.openConnection();
-							con.setRequestMethod("POST");
+							con.setRequestMethod("DELETE");
 							con.setRequestProperty("Content-Type", "application/json; utf-8");
 							con.setRequestProperty("Accept", "application/json");
 							con.setDoOutput(true);
