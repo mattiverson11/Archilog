@@ -30,7 +30,61 @@ import org.json.JSONObject;
 */
 public class SessionImplementation implements SessionInterface {
 
-	
+	public void initDatabase() throws ClassNotFoundException {
+		Connection conn = null;
+		String url = "jdbc:sqlite:data.db";
+		try {
+
+			conn = DriverManager.getConnection(url);
+
+			System.out.println("Connection to SQLite has been established.");
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+		String sql = "CREATE TABLE IF NOT EXISTS Personne(ID TEXT PRIMARY KEY,prenom TEXT,nom TEXT,mail TEXT,status TEXT)";
+		try (Statement stmt = conn.createStatement()) {
+			// create a new table
+			stmt.execute(sql);
+			System.out.println("personne table created");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		sql = "CREATE TABLE IF NOT EXISTS UniteEnseignement(ID TEXT PRIMARY KEY,code TEXT,intitule TEXT,cours REAL,td REAL,tp REAL,valeur REAL)";
+		try (Statement stmt = conn.createStatement()) {
+			// create a new table
+			stmt.execute(sql);
+			System.out.println("Ue table created");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		sql = "CREATE TABLE IF NOT EXISTS classe(ID TEXT PRIMARY KEY,promotion NUMBER,filiere TEXT)";
+		try (Statement stmt = conn.createStatement()) {
+			// create a new table
+			stmt.execute(sql);
+			System.out.println("classe table created");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+		sql = "CREATE TABLE IF NOT EXISTS CRENEAU(ID TEXT PRIMARY KEY,debut TEXT,fin TEXT,jour TEXT,classe TEXT,uniteEnseignement TEXT, FOREIGN KEY(classe) REFERENCES classe(id),FOREIGN KEY(uniteEnseignement) REFERENCES UniteEnseignement(id))";
+		try (Statement stmt = conn.createStatement()) {
+			// create a new table
+			stmt.execute(sql);
+			System.out.println("CRENEAU table created");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	@Override
 	public String createEU(String JSONEntry) {
 		// TODO Auto-generated method stub

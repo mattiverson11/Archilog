@@ -1,6 +1,5 @@
 package fr.isty.iatic5.archilog.ihm;
 
-
 import javax.swing.JFrame;
 
 import org.json.JSONException;
@@ -13,7 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 import java.awt.event.ActionEvent;
-import fr.isty.iatic5.archilog.impl.SessionImplementation;
+import fr.isty.iatic5.archilog.impl.*;
 import javax.swing.JTextArea;
 
 public class MainWindow {
@@ -147,24 +146,18 @@ public class MainWindow {
 				JSONObject obj = new JSONObject();
 				try {
 					obj.put("UUID", id);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				console.setText("");
-				JSONObject objRet;
-				try {
-					objRet = new JSONObject(sess.deleteSession(obj.toString()));
+
+					console.setText("");
+					JSONObject objRet = new JSONObject(sess.deleteSession(obj.toString()));
 					if (objRet.getString("result").equals("done"))
 						console.append("Session supprimÃ©e, id :"+ id);
 					else
 						console.append("Erreur suppression vÃ©rfier l'exitence de l'id");
+					//TODO: Test me please, belllah :'(
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				//TODO: Test me please, belllah :'(
 				
 			}
 		});
@@ -184,24 +177,15 @@ public class MainWindow {
 				JSONObject obj = new JSONObject();
 				try {
 					obj.put("UE", iue);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
+
 					obj.put("classe", icl);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					obj.put("creneau", icr);
+					sess.createSession(obj.toString());
+					//TODO: Find a solution for session creation
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				sess.createSession(obj.toString());
-				//TODO: Find a solution for session creation
 			}
 		});
 		cSession.setBounds(477, 90, 117, 29);
@@ -214,15 +198,9 @@ public class MainWindow {
 				JSONObject obj = new JSONObject();
 				try {
 					obj.put("UUID", id);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				console.setText("");
-				JSONObject objRet;
-				try {
-					objRet = new JSONObject(sess.deleteEU(obj.toString()));
 
+					console.setText("");
+					JSONObject objRet = new JSONObject(sess.deleteEU(obj.toString()));
 					if (objRet.getString("result").equals("done"))
 						console.append("UE supprimÃ©, id :"+ id);
 					else
@@ -242,32 +220,27 @@ public class MainWindow {
 				JSONObject req = new JSONObject();
 				try {
 					req.put("id", idClasse.getText());
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				String rep = sess.getClasse(req.toString());
-				if (!rep.equals("erreur"))
-				{
-					JSONObject view;
-					try {
-						view = new JSONObject(rep);
-						String id = view.getString("id");						
+					String rep = sess.getClasse(req.toString());
+					if (!rep.equals("erreur"))
+					{
+						JSONObject view  = new JSONObject(rep);
+						String id = view.getString("id");
 						int promotion = Integer.parseInt(view.getString("promotion"));
 						String filiere = view.getString("filiere");
 						console.setText("");
 						console.append("ID;Promotion;Filiere \n");
 						console.append(""+id+" ; "+ promotion +" ; "+ filiere +"\n");
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
 					}
+					else
+					{
+						console.setText("");
+						console.append("Erreur affichage vÃ©rfier l'exitence de l'id\n");
+					}
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				else
-				{
-					console.setText("");
-					console.append("Erreur affichage vÃ©rfier l'exitence de l'id\n");
-				}
+				
 					
 				
 			}
@@ -281,16 +254,11 @@ public class MainWindow {
 				JSONObject req = new JSONObject();
 				try {
 					req.put("id", idCreneau.getText());
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				String rep = sess.getCreneau(req.toString());
-				if (!rep.equals("erreur"))
-				{
-					JSONObject view;
-					try {
-						view = new JSONObject(rep);
+
+					String rep = sess.getCreneau(req.toString());
+					if (!rep.equals("erreur"))
+					{
+						JSONObject view  = new JSONObject(rep);
 						String id = view.getString("id");
 						LocalTime debut = LocalTime.parse(view.getString("debut"));
 						LocalTime fin = LocalTime.parse(view.getString("fin"));
@@ -298,15 +266,15 @@ public class MainWindow {
 						console.setText("");
 						console.append("ID;debut;fin;jour \n");
 						console.append(""+id+" ; "+ debut +" ; "+ fin +" ; "+jour +"\n");
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
 					}
-				}
-				else
-				{
-					console.setText("");
-					console.append("Erreur affichage vÃ©rfier l'exitence de l'id\n");
+					else
+					{
+						console.setText("");
+						console.append("Erreur affichage vÃ©rfier l'exitence de l'id\n");
+					}
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				
 			}
@@ -320,16 +288,11 @@ public class MainWindow {
 				JSONObject req = new JSONObject();
 				try {
 					req.put("id", idUE.getText());
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				String rep = sess.getUE(req.toString());
-				if (!rep.equals("erreur"))
-				{
-					JSONObject view;
-					try {
-						view = new JSONObject(rep);
+
+					String rep = sess.getUE(req.toString());
+					if (!rep.equals("erreur"))
+					{
+						JSONObject view  = new JSONObject(rep);
 						String id = view.getString("id");
 						String code = view.getString("code");
 						String intitule = view.getString("intitule");
@@ -340,16 +303,15 @@ public class MainWindow {
 						console.setText("");
 						console.append("ID;code;intitule;cours;td;tp;valeur \n");
 						console.append(""+id+" ; "+ code +" ; "+ intitule +" ; "+cours +" ; "+td+ " ; "+ tp +" ; "+valeur+"\n");
-					
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
 					}
-				}
-				else
-				{
-					console.setText("");
-					console.append("Erreur affichage vÃ©rfier l'exitence de l'id\n");
+					else
+					{
+						console.setText("");
+						console.append("Erreur affichage vÃ©rfier l'exitence de l'id\n");
+					}
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -363,15 +325,9 @@ public class MainWindow {
 				JSONObject obj = new JSONObject();
 				try {
 					obj.put("UUID", id);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				console.setText("");
-				JSONObject objRet;
-				try {
-					objRet = new JSONObject(sess.deleteCreneau(obj.toString()));
 
+					console.setText("");
+					JSONObject objRet = new JSONObject(sess.deleteCreneau(obj.toString()));
 					if (objRet.getString("result").equals("done"))
 						console.append("Creneau supprimÃ©, id :"+ id);
 					else
@@ -393,15 +349,9 @@ public class MainWindow {
 				JSONObject obj = new JSONObject();
 				try {
 					obj.put("UUID", id);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				console.setText("");
-				JSONObject objRet;
-				try {
-					objRet = new JSONObject(sess.deleteClasse(obj.toString()));
 
+					console.setText("");
+					JSONObject objRet = new JSONObject(sess.deleteClasse(obj.toString()));
 					if (objRet.getString("result").equals("done"))
 						console.append("Classe supprimÃ©, id :"+ id);
 					else
@@ -428,56 +378,20 @@ public class MainWindow {
 				JSONObject obj = new JSONObject();
 				try {
 					obj.put("id", id);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
+
 					obj.put("code", co);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					obj.put("intitule", inti);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					obj.put("cours", cou);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					obj.put("td", TD);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					obj.put("tp", TP);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					obj.put("valeur", val);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				console.setText("");
-				JSONObject objRet;
-				try {
-					objRet = new JSONObject(sess.createEU(obj.toString()));
+					console.setText("");
+					JSONObject objRet = new JSONObject(sess.createEU(obj.toString()));
 					console.append("UE crÃ©Ã©, id :"+ objRet.getString("id")); 
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
 				
 			}
 		});
@@ -494,39 +408,18 @@ public class MainWindow {
 				JSONObject obj = new JSONObject();
 				try {
 					obj.put("id", id);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
+
 					obj.put("debut", deb);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					obj.put("fin", fi);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					obj.put("jour", jo);
+					//TODO: Test this shit !
+					console.setText("");
+					JSONObject objRet = new JSONObject(sess.createCreneau(obj.toString()));
+					console.append("Creneau crÃ©Ã©, id :"+ objRet.getString("id")); 
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				//TODO: Test this shit !
-				console.setText("");
-				JSONObject objRet;
-				try {
-					objRet = new JSONObject(sess.createCreneau(obj.toString()));
-					console.append("Creneau crÃ©Ã©, id :"+ objRet.getString("id"));
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				 
 				
 			}
 		});
@@ -542,33 +435,17 @@ public class MainWindow {
 				JSONObject obj = new JSONObject();
 				try {
 					obj.put("id", id);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
+
 					obj.put("promotion", promo);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
 					obj.put("filiere", fil);
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				console.setText("");
-				JSONObject objRet;
-				try {
-					objRet = new JSONObject(sess.createClasse(obj.toString()));
+					console.setText("");
+					JSONObject objRet = new JSONObject(sess.createClasse(obj.toString()));
 					console.append("Classe crÃ©Ã©, id :"+ objRet.getString("id")); 
+					
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				
 			}
 		});
 		cClasse.setBounds(477, 6, 117, 29);
