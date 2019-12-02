@@ -240,7 +240,7 @@ public class SessionImplementation implements SessionInterface {
 			}
 			URL url;
 			try {
-				url = new URL ("\"http://localhost:8080/manipulClasse/create/newClasse/");
+				url = new URL ("http://localhost:8080/manipulClasse/create/newClasse/");
 				HttpURLConnection con;
 				try {
 					con = (HttpURLConnection)url.openConnection();
