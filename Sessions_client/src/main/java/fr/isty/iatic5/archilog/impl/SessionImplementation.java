@@ -248,7 +248,7 @@ public class SessionImplementation implements SessionInterface {
 					con.setRequestProperty("Content-Type", "application/json; utf-8");
 					con.setRequestProperty("Accept", "application/json");
 					con.setDoOutput(true);
-					String jsonInputString = "{ id : "+id+", promotion : "+promotion+", filiere : "+filiere+"}";
+					String jsonInputString = "{ \"id\" : "+id+", \"promotion\" : "+promotion+", \"filiere\" : "+filiere+"}";
 					try(OutputStream os = con.getOutputStream()) {
 					    byte[] input = jsonInputString.getBytes("utf-8");
 					    os.write(input, 0, input.length);           
