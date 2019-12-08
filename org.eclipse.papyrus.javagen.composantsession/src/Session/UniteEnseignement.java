@@ -168,7 +168,7 @@ public class UniteEnseignement extends SqlUtils {
 				con.setRequestProperty("Content-Type", "application/json; utf-8");
 				con.setRequestProperty("Accept", "application/json");
 				con.setDoOutput(true);
-				String jsonInputString = "{ id : "+id+", code : "+code+", intitule : "+intitule+", cours : "+cours+", td : "+td+", tp : "+tp+", valeur :"+valeur+"}";
+				String jsonInputString = "{ \"id\" : \""+id+"\", \"code\" : \""+code+"\", \"intitule\" : \""+intitule+"\", \"cours\" : \""+cours+"\", \"td\" : \""+td+"\", \"tp\" : \""+tp+"\", \"valeur\" : \""+valeur+"\"}";
 				try(OutputStream os = con.getOutputStream()) {
 				    byte[] input = jsonInputString.getBytes("utf-8");
 				    os.write(input, 0, input.length);           
@@ -216,7 +216,7 @@ public class UniteEnseignement extends SqlUtils {
 				con.setRequestProperty("Content-Type", "application/json; utf-8");
 				con.setRequestProperty("Accept", "application/json");
 				con.setDoOutput(true);
-				String jsonInputString = "{ id : "+id+"}";
+				String jsonInputString = "{ \"id\" : \""+id+"\"}";
 				try(OutputStream os = con.getOutputStream()) {
 				    byte[] input = jsonInputString.getBytes("utf-8");
 				    os.write(input, 0, input.length);           

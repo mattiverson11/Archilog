@@ -76,7 +76,7 @@ public class Creneau extends SqlUtils {
 				con.setRequestProperty("Content-Type", "application/json; utf-8");
 				con.setRequestProperty("Accept", "application/json");
 				con.setDoOutput(true);
-				String jsonInputString = "{ id : "+id+", debut : "+debut+", fin : "+fin+", jour : "+jour+"}";
+				String jsonInputString = "{ \"id\" : \""+id+"\", \"debut\" : \""+debut+"\", \"fin\" : \""+fin+"\", \"jour\" : \""+jour+"\"}";
 				try(OutputStream os = con.getOutputStream()) {
 				    byte[] input = jsonInputString.getBytes("utf-8");
 				    os.write(input, 0, input.length);           
@@ -173,7 +173,7 @@ public class Creneau extends SqlUtils {
 				con.setRequestProperty("Content-Type", "application/json; utf-8");
 				con.setRequestProperty("Accept", "application/json");
 				con.setDoOutput(true);
-				String jsonInputString = "{ id : "+id+"}";
+				String jsonInputString = "{ \"id\" : \""+id+"\"}";
 				try(OutputStream os = con.getOutputStream()) {
 				    byte[] input = jsonInputString.getBytes("utf-8");
 				    os.write(input, 0, input.length);           
