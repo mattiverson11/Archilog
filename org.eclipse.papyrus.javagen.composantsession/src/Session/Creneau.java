@@ -18,6 +18,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+
 /************************************************************/
 /**
  * 
@@ -173,7 +175,7 @@ public class Creneau extends SqlUtils {
 				con.setRequestProperty("Content-Type", "application/json; utf-8");
 				con.setRequestProperty("Accept", "application/json");
 				con.setDoOutput(true);
-				String jsonInputString = "{ \"id\" : \""+id+"\"}";
+				String jsonInputString = "{ \"UUID\" : \""+id+"\"}";
 				try(OutputStream os = con.getOutputStream()) {
 				    byte[] input = jsonInputString.getBytes("utf-8");
 				    os.write(input, 0, input.length);           
@@ -200,41 +202,90 @@ public class Creneau extends SqlUtils {
 	}
 
 	public static Creneau getById(String id) {
-		SqlUtils sql = new SqlUtils();
-		sql.connect();
-		ResultSet set = sql.requestSelect(String.format("SELECT * FROM CRENEAU WHERE id='%s'", id));
-
+		URL url;
 		try {
-			Creneau creneau = new Creneau(set.getString("id"), LocalTime.parse(set.getString("debut")),
-					LocalTime.parse(set.getString("fin")), LocalDate.parse(set.getString("jour")));
-			sql.disconnect();
-			return creneau;
-		} catch (SQLException e) {
+			url = new URL ("http://localhost:8080/manipulCreneau/get/getCreneau");
+			HttpURLConnection con;
+			try {
+				con = (HttpURLConnection)url.openConnection();
+				con.setRequestMethod("GET");
+				con.setRequestProperty("Content-Type", "application/json; utf-8");
+				con.setRequestProperty("Accept", "application/json");
+
+				StringBuilder response = new StringBuilder();
+				
+				try(BufferedReader br = new BufferedReader(
+						  new InputStreamReader(con.getInputStream(), "utf-8"))) {
+						    
+						    String responseLine = null;
+						    while ((responseLine = br.readLine()) != null) {
+						        response.append(responseLine.trim());
+						    }
+						}
+				JSONArray obj = new JSONArray(response.toString());
+				
+				for (int i = 0; i < obj.length(); ++i) {
+					if(obj.getJSONObject(i).getString("id").equals(id)) {
+					Creneau creneau = new Creneau(obj.getJSONObject(i).getString("id"), LocalTime.parse(obj.getJSONObject(i).getString("debut")),
+							LocalTime.parse(obj.getJSONObject(i).getString("fin")), LocalDate.parse(obj.getJSONObject(i).getString("jour")));
+					
+					return creneau;
+					}
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			sql.disconnect();
-			return null;
 		}
+			return null;
+		
 	}
 
 	public static List<Creneau> getAll() {
-		SqlUtils sql = new SqlUtils();
-		sql.connect();
-		ResultSet set = sql.requestSelect(String.format("SELECT * FROM CRENEAU"));
 		
 		List<Creneau> result = new ArrayList<Creneau>();
 
+		URL url;
 		try {
-			while (set.next()) {
-				Creneau creneau = new Creneau(set.getString("id"), LocalTime.parse(set.getString("debut")),
-						LocalTime.parse(set.getString("fin")), LocalDate.parse(set.getString("jour")));
-				result.add(creneau);
+			url = new URL ("http://localhost:8080/manipulCreneau/get/getCreneau");
+			HttpURLConnection con;
+			try {
+				con = (HttpURLConnection)url.openConnection();
+				con.setRequestMethod("GET");
+				con.setRequestProperty("Content-Type", "application/json; utf-8");
+				con.setRequestProperty("Accept", "application/json");
+
+				StringBuilder response = new StringBuilder();
+				
+				try(BufferedReader br = new BufferedReader(
+						  new InputStreamReader(con.getInputStream(), "utf-8"))) {
+						    
+						    String responseLine = null;
+						    while ((responseLine = br.readLine()) != null) {
+						        response.append(responseLine.trim());
+						    }
+						}
+				JSONArray obj = new JSONArray(response.toString());
+				
+				for (int i = 0; i < obj.length(); ++i) {
+					Creneau creneau = new Creneau(obj.getJSONObject(i).getString("id"), LocalTime.parse(obj.getJSONObject(i).getString("debut")),
+							LocalTime.parse(obj.getJSONObject(i).getString("fin")), LocalDate.parse(obj.getJSONObject(i).getString("jour")));
+					result.add(creneau);
+					
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			sql.disconnect();
-			return null;
 		}
-		sql.disconnect();
 		return result;
 	}
 

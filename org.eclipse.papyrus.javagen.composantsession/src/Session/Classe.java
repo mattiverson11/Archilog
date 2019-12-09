@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import jdk.nashorn.internal.parser.JSONParser;
+
 /************************************************************/
 /**
  * 
@@ -114,7 +119,7 @@ public class Classe extends SqlUtils {
 				con.setRequestProperty("Content-Type", "application/json; utf-8");
 				con.setRequestProperty("Accept", "application/json");
 				con.setDoOutput(true);
-				String jsonInputString = "{ \"id\" : \""+id+"\"}";
+				String jsonInputString = "{ \"UUID\" : \""+id+"\"}";
 				try(OutputStream os = con.getOutputStream()) {
 				    byte[] input = jsonInputString.getBytes("utf-8");
 				    os.write(input, 0, input.length);           
@@ -141,20 +146,49 @@ public class Classe extends SqlUtils {
 	}
 
 	public static Classe getById(String id) {
-		SqlUtils sql = new SqlUtils();
-		sql.connect();
-		ResultSet set = sql.requestSelect(String.format("SELECT * FROM CLASSE WHERE id='%s'", id));
-		
-
+		URL url;
 		try {
-			Classe classe = new Classe(set.getString("id"), set.getInt("promotion"), set.getString("filiere"));
-			sql.disconnect();
-			return classe;
-		} catch (SQLException e) {
+			url = new URL ("http://localhost:8080/manipulClasse/get/getClasse");
+			HttpURLConnection con;
+			try {
+				con = (HttpURLConnection)url.openConnection();
+				
+				con.setRequestProperty("Content-Type", "application/json; utf-8");
+				con.setRequestProperty("Accept", "application/json");
+
+
+			    
+				con.setRequestMethod("GET");
+				StringBuilder response = new StringBuilder();
+				try(BufferedReader br = new BufferedReader(
+						  new InputStreamReader(con.getInputStream(), "utf-8"))) {
+						    
+						    String responseLine = null;
+						    while ((responseLine = br.readLine()) != null) {
+						        response.append(responseLine.trim());
+						    }
+						}
+				JSONArray obj = new JSONArray(response.toString());
+				
+				for (int i = 0; i < obj.length(); ++i) {
+					if(obj.getJSONObject(i).getString("id").equals(id)){
+					Classe classe = new Classe(obj.getJSONObject(i).getString("id"), obj.getJSONObject(i).getInt("promotion"), obj.getJSONObject(i).getString("filiere"));
+					return classe;
+					}
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			sql.disconnect();
-			return null;
 		}
+
+		
+			return null;
+		
 		
 	}
 
@@ -164,23 +198,49 @@ public class Classe extends SqlUtils {
 	}
 
 	public static List<Classe> getAll() {
-		SqlUtils sql = new SqlUtils();
-		sql.connect();
-		ResultSet set = sql.requestSelect(String.format("SELECT * FROM CLASSE "));
 	
 		List<Classe> result = new ArrayList<Classe>();
 
+		URL url;
 		try {
-			while (set.next()) {
-				Classe classe = new Classe(set.getString("id"), set.getInt("promotion"), set.getString("filiere"));
-				result.add(classe);
+			url = new URL ("http://localhost:8080/manipulClasse/get/getClasse");
+			HttpURLConnection con;
+			try {
+				con = (HttpURLConnection)url.openConnection();
+				
+				con.setRequestProperty("Content-Type", "application/json; utf-8");
+				con.setRequestProperty("Accept", "application/json");
+
+
+			    
+				con.setRequestMethod("GET");
+				StringBuilder response = new StringBuilder();
+				try(BufferedReader br = new BufferedReader(
+						  new InputStreamReader(con.getInputStream(), "utf-8"))) {
+						    
+						    String responseLine = null;
+						    while ((responseLine = br.readLine()) != null) {
+						        response.append(responseLine.trim());
+						    }
+						}
+				JSONArray obj = new JSONArray(response.toString());
+				
+				for (int i = 0; i < obj.length(); ++i) {
+					
+					Classe classe = new Classe(obj.getJSONObject(i).getString("id"), obj.getJSONObject(i).getInt("promotion"), obj.getJSONObject(i).getString("filiere"));
+					
+					result.add(classe);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			sql.disconnect();
-			return null;
 		}
-		sql.disconnect();
+		
 		return result;
 		
 	}

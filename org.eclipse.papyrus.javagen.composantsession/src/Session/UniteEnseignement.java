@@ -13,9 +13,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.json.JSONArray;
 
 /************************************************************/
 /**
@@ -216,7 +220,7 @@ public class UniteEnseignement extends SqlUtils {
 				con.setRequestProperty("Content-Type", "application/json; utf-8");
 				con.setRequestProperty("Accept", "application/json");
 				con.setDoOutput(true);
-				String jsonInputString = "{ \"id\" : \""+id+"\"}";
+				String jsonInputString = "{ \"UUID\" : \""+id+"\"}";
 				try(OutputStream os = con.getOutputStream()) {
 				    byte[] input = jsonInputString.getBytes("utf-8");
 				    os.write(input, 0, input.length);           
@@ -247,41 +251,89 @@ public class UniteEnseignement extends SqlUtils {
 		sql.connect();
 		ResultSet set = sql.requestSelect(String.format("SELECT * FROM UniteEnseignement WHERE id='%s'", id));
 		
-
+		URL url;
 		try {
-			UniteEnseignement ue = new UniteEnseignement(set.getString("id"), set.getString("code"),
-					set.getString("intitule"), set.getFloat("cours"), set.getFloat("td"), set.getFloat("tp"),
-					set.getFloat("valeur"));
-			sql.disconnect();
-			return ue;
-		} catch (SQLException e) {
+			url = new URL ("http://localhost:8080/manipulUniteEnseign/get/getEntiteEnseign");
+			HttpURLConnection con;
+			try {
+				con = (HttpURLConnection)url.openConnection();
+				con.setRequestMethod("GET");
+				con.setRequestProperty("Content-Type", "application/json; utf-8");
+				con.setRequestProperty("Accept", "application/json");
+
+				StringBuilder response = new StringBuilder();
+				try(BufferedReader br = new BufferedReader(
+						  new InputStreamReader(con.getInputStream(), "utf-8"))) {
+						    
+						    String responseLine = null;
+						    while ((responseLine = br.readLine()) != null) {
+						        response.append(responseLine.trim());
+						    }
+						}
+				JSONArray obj = new JSONArray(response.toString());
+				
+				for (int i = 0; i < obj.length(); ++i) {
+					if (obj.getJSONObject(i).getString("id").equals(id)) {
+					UniteEnseignement ue = new UniteEnseignement(obj.getJSONObject(i).getString("id"), obj.getJSONObject(i).getString("code"),
+							obj.getJSONObject(i).getString("intitule"), obj.getJSONObject(i).getFloat("cours"), obj.getJSONObject(i).getFloat("td"), obj.getJSONObject(i).getFloat("tp"),
+							obj.getJSONObject(i).getFloat("valeur"));
+
+					return ue;
+					}
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			sql.disconnect();
-			return null;
 		}
+		return null;
 		
 	}
 
 	public static List<UniteEnseignement> getAll() {
-		SqlUtils sql = new SqlUtils();
-		sql.connect();
-		ResultSet set = sql.requestSelect(String.format("SELECT * FROM UniteEnseignement "));
 	
 		List<UniteEnseignement> result = new ArrayList<UniteEnseignement>();
-
+		URL url;
 		try {
-			while (set.next()) {
-				UniteEnseignement ue = new UniteEnseignement(set.getString("id"), set.getString("code"),
-						set.getString("intitule"), set.getFloat("cours"), set.getFloat("td"), set.getFloat("tp"),
-						set.getFloat("valeur"));
-				result.add(ue);
+			url = new URL ("http://localhost:8080/manipulUniteEnseign/get/getEntiteEnseign");
+			HttpURLConnection con;
+			try {
+				con = (HttpURLConnection)url.openConnection();
+				con.setRequestMethod("GET");
+				con.setRequestProperty("Content-Type", "application/json; utf-8");
+				con.setRequestProperty("Accept", "application/json");
+
+				StringBuilder response = new StringBuilder();
+				try(BufferedReader br = new BufferedReader(
+						  new InputStreamReader(con.getInputStream(), "utf-8"))) {
+						    
+						    String responseLine = null;
+						    while ((responseLine = br.readLine()) != null) {
+						        response.append(responseLine.trim());
+						    }
+						}
+				JSONArray obj = new JSONArray(response.toString());
+				
+				for (int i = 0; i < obj.length(); ++i) {
+					UniteEnseignement ue = new UniteEnseignement(obj.getJSONObject(i).getString("id"), obj.getJSONObject(i).getString("code"),
+							obj.getJSONObject(i).getString("intitule"), obj.getJSONObject(i).getFloat("cours"), obj.getJSONObject(i).getFloat("td"), obj.getJSONObject(i).getFloat("tp"),
+							obj.getJSONObject(i).getFloat("valeur"));
+					result.add(ue);
+					
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			sql.disconnect();
-			return null;
 		}
-		sql.disconnect();
 		return result;
 	}
 
