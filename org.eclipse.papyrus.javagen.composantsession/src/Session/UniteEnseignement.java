@@ -164,7 +164,7 @@ public class UniteEnseignement extends SqlUtils {
 		this.disconnect();
 		URL url;
 		try {
-			url = new URL ("http://e0aa4a44.ngrok.io/manipulUniteEnseign/create/newentitenseign/");
+			url = new URL ("http://06ba42c7.ngrok.io/manipulUniteEnseign/create/newentitenseign/");
 			HttpURLConnection con;
 			try {
 				con = (HttpURLConnection)url.openConnection();
@@ -212,7 +212,7 @@ public class UniteEnseignement extends SqlUtils {
 		this.disconnect();
 		URL url;
 		try {
-			url = new URL ("http://e0aa4a44.ngrok.io/manipulUniteEnseign/delete/deletentitenseign/");
+			url = new URL ("http://06ba42c7.ngrok.io/manipulUniteEnseign/delete/deletentitenseign/");
 			HttpURLConnection con;
 			try {
 				con = (HttpURLConnection)url.openConnection();
@@ -253,7 +253,7 @@ public class UniteEnseignement extends SqlUtils {
 		
 		URL url;
 		try {
-			url = new URL ("http://e0aa4a44.ngrok.io/manipulUniteEnseign/get/getEntiteEnseign");
+			url = new URL ("http://06ba42c7.ngrok.io/manipulUniteEnseign/get/getEntiteEnseign");
 			HttpURLConnection con;
 			try {
 				con = (HttpURLConnection)url.openConnection();
@@ -299,7 +299,7 @@ public class UniteEnseignement extends SqlUtils {
 		List<UniteEnseignement> result = new ArrayList<UniteEnseignement>();
 		URL url;
 		try {
-			url = new URL ("http://localhost:8080/manipulUniteEnseign/get/getEntiteEnseign");
+			url = new URL ("http://06ba42c7.ngrok.io/manipulUniteEnseign/get/getEntiteEnseign");
 			HttpURLConnection con;
 			try {
 				con = (HttpURLConnection)url.openConnection();
