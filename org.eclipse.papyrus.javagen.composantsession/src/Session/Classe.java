@@ -65,7 +65,7 @@ public class Classe extends SqlUtils {
 		this.disconnect();
 		URL url;
 		try {
-			url = new URL ("http://localhost:8080/manipulClasse/create/newClasse/");
+			url = new URL ("http://e0aa4a44.ngrok.io/manipulClasse/create/newClasse/");
 			HttpURLConnection con;
 			try {
 				con = (HttpURLConnection)url.openConnection();
@@ -111,7 +111,7 @@ public class Classe extends SqlUtils {
 		this.disconnect();
 		URL url;
 		try {
-			url = new URL ("http://localhost:8080/manipulClasse/delete/deleteClasse/");
+			url = new URL ("http://e0aa4a44.ngrok.io/manipulClasse/delete/deleteClasse/");
 			HttpURLConnection con;
 			try {
 				con = (HttpURLConnection)url.openConnection();
@@ -148,7 +148,7 @@ public class Classe extends SqlUtils {
 	public static Classe getById(String id) {
 		URL url;
 		try {
-			url = new URL ("http://localhost:8080/manipulClasse/get/getClasse");
+			url = new URL ("http://e0aa4a44.ngrok.io/manipulClasse/get/getClasse");
 			HttpURLConnection con;
 			try {
 				con = (HttpURLConnection)url.openConnection();
@@ -203,7 +203,7 @@ public class Classe extends SqlUtils {
 
 		URL url;
 		try {
-			url = new URL ("http://localhost:8080/manipulClasse/get/getClasse");
+			url = new URL ("http://e0aa4a44.ngrok.io/manipulClasse/get/getClasse");
 			HttpURLConnection con;
 			try {
 				con = (HttpURLConnection)url.openConnection();
