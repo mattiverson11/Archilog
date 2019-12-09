@@ -1,0 +1,15 @@
+fr\isty\iatic5\sessions\service\Creneau.class
+fr\isty\iatic5\sessions\service\UniteEnseignement.class
+fr\isty\iatic5\sessions\service\Classe.class
+fr\isty\iatic5\archilog\sessions\controller\ClasseController.class
+fr\isty\iatic5\archilog\sessions\config\SqlUtils.class
+fr\isty\iatic5\archilog\sessions\controller\UnitEnseignController.class
+fr\isty\iatic5\sessions\service\Session.class
+fr\isty\iatic5\archilog\sessions\controller\SessionController.class
+fr\isty\iatic5\archilog\sessions\controller\CreneauConroller.class
+fr\isty\iatic5\sessions\service\SessionInterface.class
+fr\isty\iatic5\sessions\service\SessionImplementation.class
+fr\isty\iatic5\sessions\service\Status.class
+fr\isty\iatic5\archilog\sessions\config\SwaggerConfig.class
+fr\isty\iatic5\archilog\sessions\App.class
+fr\isty\iatic5\sessions\service\Personne.class
